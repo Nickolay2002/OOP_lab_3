@@ -2,19 +2,37 @@
 
 using namespace std;
 
-class shape
+class object
+{
+public:
+	object()
+	{
+		cout << "Конструктор абстрактного класса object" << endl;
+	}
+	~object()
+	{
+		cout << "Деструктор абстрактного класса object" << endl;
+	}
+	virtual void show_params()
+	{
+		cout << "Абстрактный объект" << endl;
+	}
+};
+
+class shape :public object
 {
 public:
 	shape()
 	{
-		cout << "Абстрактная фигура создалась" << endl;
+		cout << "Конструктор класса shape" << endl;
 	}
 	~shape()
 	{
-		cout << "Фигура удалилась" << endl;
+		cout << "Деструктор класса shape" << endl;
 	}
 	virtual void show_params()
 	{
+		cout << "Фигура" << endl;
 	}
 };
 
@@ -29,6 +47,11 @@ public:
 		x = 0;
 		y = 0;
 	}
+	point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
 	~point()
 	{
 		cout << "Точка удалилась" << endl;
@@ -40,47 +63,102 @@ public:
 	}
 };
 
-class Section :public shape
+class section :public shape
 {
 private:
 	point* p1, * p2;
-	int x1, x2, y1, y2;
+	float length;
 public:
-	Section()
+	section()
 	{
-		p1 = new point();
-		p2 = new point();
-		x1 = x2 = y1 = y2 = 0;
+		p1 = new point(0,0);
+		p2 = new point(5,5);
+		length = 5;
 		cout << "Отрезок создался" << endl;
 	}
-	~Section()
+	~section()
 	{
 		cout << "Отрезок удалился" << endl;
 		delete p1;
 		delete p2;
 	}
-	virtual void show_parametri()
+	virtual void show_params()
 	{
 		cout << " Это отрезок " << endl;
+		cout << " Начало отрезка с координатами:" << endl;//TODO
+	}
+};
+
+class aircraft :public object
+{
+public:
+	aircraft()
+	{
+		cout << "Конструктор класса aircraft" << endl;
+	}
+	~aircraft()
+	{
+		cout << "Деструктор класса aircraft" << endl;
+	}
+	virtual void show_params()
+	{
+	}
+};
+
+class plane :public aircraft
+{
+private:
+	int size_of_wing;
+public:
+	plane()
+	{
+		size_of_wing = 50;
+		cout << "Конструктор класса plane" << endl;
+	}
+	~plane()
+	{
+		cout << "Деструктор класса plane" << endl;
+	}
+	virtual void show_params()
+	{
+	}
+};
+
+class helicopter : public aircraft
+{
+private:
+	int size_of_blades;
+public:
+	helicopter()
+	{
+		size_of_blades = 100;
+		cout << "Конструктор класса helicopter" << endl;
+	}
+	~helicopter()
+	{
+		cout << "Деструктор класса helicopter" << endl;
+	}
+	virtual void show_params()
+	{
 	}
 };
 
 class MyStorage
 {
 private:
-	shape** objects;
+	object** objects;
 	int size;
 public:
 	MyStorage(int size)
 	{
 		this->size = size;
-		objects = new shape * [size];
+		objects = new object * [size];
 	}
-	void SetObject(int index, shape* object)
+	void SetObject(int index, object* object)
 	{
 		objects[index] = object;
 	}
-	shape& GetObject(int index)
+	object& GetObject(int index)
 	{
 		return *objects[index];
 	}
