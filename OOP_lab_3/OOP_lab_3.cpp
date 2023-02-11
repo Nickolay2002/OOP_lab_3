@@ -49,6 +49,7 @@ public:
 	}
 	point(int x, int y)
 	{
+		cout << "Создалась точка через конструктор с параметрами" << endl;
 		this->x = x;
 		this->y = y;
 	}
@@ -85,7 +86,7 @@ public:
 	virtual void show_params()
 	{
 		cout << " Это отрезок " << endl;
-		cout << " Начало отрезка с координатами:" << endl;//TODO
+		printf("Начало отрезка с координатами:", p1, "Длина:", length);
 	}
 };
 
@@ -102,6 +103,7 @@ public:
 	}
 	virtual void show_params()
 	{
+		cout << "Это воздушное судно" << endl;
 	}
 };
 
@@ -121,6 +123,7 @@ public:
 	}
 	virtual void show_params()
 	{
+		cout << "Это самолет" << endl;
 	}
 };
 
@@ -140,6 +143,7 @@ public:
 	}
 	virtual void show_params()
 	{
+		cout << "Это вертолет" << endl;
 	}
 };
 
@@ -151,31 +155,114 @@ private:
 public:
 	MyStorage(int size)
 	{
+		cout << "Конструктор хранилища" << endl;
 		this->size = size;
 		objects = new object * [size];
+		for (int i = 0; i < size; i++)
+			objects[i] = nullptr;
 	}
+
+	~MyStorage()
+	{
+		for (int i = 0; i < size; i++)
+			if (objects[i] != nullptr)
+				delete (objects[i]);
+		delete[] objects;
+		cout << "Хранилище удалено" << endl;
+	}
+
+	bool CheckObject(int index)
+	{
+		if (index > size)
+		{
+			return false;
+		}
+		else
+		{
+			if (objects[index] == nullptr)
+			{
+				return false;
+			}
+			else return true;
+		}
+	}
+
 	void SetObject(int index, object* object)
 	{
+		if (index < this->size)
+		{
+			if (CheckObject(index) == false)
+			{
+				objects[index] = object;
+			}
+			else
+			{
+				AddObject(object);
+			}
+		}
+		else
+		{
+			IncreaseMyStorage(objects, size, index + 1);
+			objects[index] = object;
+		}
 		objects[index] = object;
 	}
+
 	object& GetObject(int index)
 	{
 		return *objects[index];
-	}
-	int getCount()
+	} //TODO
+
+	void AddObject(object* object)
 	{
-		return;//TODO
+		for (int i = 0; i < size; i++)
+		{
+			if (objects[i] == nullptr)
+			{
+				objects[i] = object;
+				cout << "Объект добавлен в позицию с номером" << i << endl;
+			}
+		}
+	} //TODO
+
+	void DeleteObject()
+	{
+		return;
+	}//TODO
+
+	void IncreaseMyStorage(object** PrevObjects,int size, int newSize )
+	{
+		object** newObjects = new object * [newSize];
+		for (int i = 0; i < newSize; i++)
+		{
+			if (i <= size)
+			{
+				newObjects[i] = PrevObjects[i];
+			}
+			else
+			{
+				newObjects[i] = nullptr;
+			}
+		}
+		this->size = newSize;
+		this->objects = newObjects;
+		delete[] PrevObjects;
 	}
+
+	int CountObjects()
+	{
+		return;
+	}//TODO
 };
 
 int main()
 {
 	setlocale(LC_ALL, "Rus");
 	MyStorage storage(10);
-	for (int i = 0; i < storage.getCount(); i++) {
+	for (int i = 0; i < storage.CountObjects(); i++) {
 		storage.SetObject(i, new point());
 	}
-	for (int i = 0; i < storage.getCount(); i++) {
+	for (int i = 0; i < storage.CountObjects(); i++) {
 		storage.GetObject(i).show_params();
 	}
 	system("pause");
