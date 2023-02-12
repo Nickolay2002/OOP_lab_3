@@ -15,7 +15,7 @@ public:
 	}
 	virtual void show_params()
 	{
-		cout << "Абстрактный объект" << endl;
+		cout << "Абстрактный объект\n" << endl;
 	}
 };
 
@@ -32,7 +32,7 @@ public:
 	}
 	virtual void show_params()
 	{
-		cout << "Фигура" << endl;
+		cout << "Фигура\n" << endl;
 	}
 };
 
@@ -59,8 +59,8 @@ public:
 	}
 	virtual void show_params()
 	{
-		cout << " Это точка" << endl;
-		cout << " Координаты = " << x << " , " << y << endl;
+		cout << " Это точка\n" << endl;
+		cout << " Координаты = " << x << " , " << y << "\n" << endl;
 	}
 };
 
@@ -72,8 +72,8 @@ private:
 public:
 	section()
 	{
-		p1 = new point(0,0);
-		p2 = new point(5,5);
+		p1 = new point(0, 0);
+		p2 = new point(5, 5);
 		length = 5;
 		cout << "Отрезок создался" << endl;
 	}
@@ -85,8 +85,8 @@ public:
 	}
 	virtual void show_params()
 	{
-		cout << " Это отрезок " << endl;
-		printf("Начало отрезка с координатами:", p1, "Длина:", length);
+		cout << " Это отрезок\n" << endl;
+		cout << "Начало отрезка с координатами:" << p1 << "Длина:" << length << endl;
 	}
 };
 
@@ -103,7 +103,7 @@ public:
 	}
 	virtual void show_params()
 	{
-		cout << "Это воздушное судно" << endl;
+		cout << "Это воздушное судно\n" << endl;
 	}
 };
 
@@ -123,7 +123,7 @@ public:
 	}
 	virtual void show_params()
 	{
-		cout << "Это самолет" << endl;
+		cout << " Это самолет\n" << endl;
 	}
 };
 
@@ -143,7 +143,7 @@ public:
 	}
 	virtual void show_params()
 	{
-		cout << "Это вертолет" << endl;
+		cout << " Это вертолет\n" << endl;
 	}
 };
 
@@ -155,7 +155,7 @@ private:
 public:
 	MyStorage(int size)
 	{
-		cout << "Конструктор хранилища" << endl;
+		cout << "Конструктор хранилища\n" << endl;
 		this->size = size;
 		objects = new object * [size];
 		for (int i = 0; i < size; i++)
@@ -171,9 +171,28 @@ public:
 		cout << "Хранилище удалено" << endl;
 	}
 
+	void IncreaseMyStorage(object** PrevObjects, int size, int newSize)
+	{
+		object** newObjects = new object * [newSize];
+		for (int i = 0; i < newSize; i++)
+		{
+			if (i < size)
+			{
+				newObjects[i] = PrevObjects[i];
+			}
+			else
+			{
+				newObjects[i] = nullptr;
+			}
+		}
+		this->size = newSize;
+		this->objects = newObjects;
+		delete[] PrevObjects;
+	}
+
 	bool CheckObject(int index)
 	{
-		if (index > size)
+		if (index >= size)
 		{
 			return false;
 		}
@@ -185,6 +204,26 @@ public:
 			}
 			else return true;
 		}
+	}
+
+	void AddObject(object* object)
+	{
+		bool position = false;
+		for (int i = 0; i < size; i++)
+		{
+			if (objects[i] == nullptr)
+			{
+				position = true;
+				objects[i] = object;
+				cout << "Объект добавлен в позицию с номером " << i << endl;
+			}
+		}
+		if (position == false)
+		{
+			SetObject(size, object);
+			cout << "Объект добавлен в позицию с номером " << size << endl;
+		}
+
 	}
 
 	void SetObject(int index, object* object)
@@ -208,64 +247,83 @@ public:
 		objects[index] = object;
 	}
 
-	object& GetObject(int index)
+	object* GetObject(int index)
 	{
-		return *objects[index];
-	} //TODO
-
-	void AddObject(object* object)
-	{
-		for (int i = 0; i < size; i++)
+		if (CheckObject(index))
 		{
-			if (objects[i] == nullptr)
-			{
-				objects[i] = object;
-				cout << "Объект добавлен в позицию с номером" << i << endl;
-			}
+			return objects[index];
 		}
-	} //TODO
-
-	void DeleteObject()
-	{
-		return;
-	}//TODO
-
-	void IncreaseMyStorage(object** PrevObjects,int size, int newSize )
-	{
-		object** newObjects = new object * [newSize];
-		for (int i = 0; i < newSize; i++)
+		else
 		{
-			if (i <= size)
-			{
-				newObjects[i] = PrevObjects[i];
-			}
-			else
-			{
-				newObjects[i] = nullptr;
-			}
+			return nullptr;
 		}
-		this->size = newSize;
-		this->objects = newObjects;
-		delete[] PrevObjects;
+	}
+
+	void DeleteObject(int index)
+	{
+		if (CheckObject(index))
+			objects[index] = nullptr;
+		else return;
 	}
 
 	int CountObjects()
 	{
-		return;
-	}//TODO
+		int count = 0;
+		for (int i = 0; i < size; i++)
+		{
+			if (CheckObject(i))
+				count += 1;
+		}
+		return count;
+	}
 };
 
 int main()
 {
 	setlocale(LC_ALL, "Rus");
+	//создание хранилища на 10 объектов
 	MyStorage storage(10);
-	for (int i = 0; i < storage.CountObjects(); i++) {
-		storage.SetObject(i, new point());
-	}
-	for (int i = 0; i < storage.CountObjects(); i++) {
-		storage.GetObject(i).show_params();
-	}
+	//создание объектов
+	object* object0 = new point(7, 10);
+	object* object1 = new section();
+	object* object2 = new plane();
+	object* object3 = new helicopter();
+	object* object4 = new point(2, 1);
+	object* object5 = new helicopter();
+	object* object6 = new plane();
+	object* object7 = new section();
+	object* object8 = new point();
+	object* object9 = new plane();
+	object* object10 = new plane();
+	cout << "____________________________________________________________________" << endl;
+	//добавление объектов
+	storage.SetObject(0, object0);
+	storage.SetObject(1, object1);
+	storage.SetObject(2, object2);
+	storage.SetObject(3, object3);
+	storage.SetObject(4, object4);
+	storage.SetObject(5, object5);
+	storage.SetObject(6, object6);
+	storage.SetObject(7, object7);
+	storage.SetObject(8, object8);
+	storage.SetObject(9, object9);
+	cout << endl;
+	//опрос объектов
+	object* any_object0 = storage.GetObject(4);
+	(*any_object0).show_params();
+	object* any_object1 = storage.GetObject(2);
+	(*any_object1).show_params();
+	object* any_object2 = storage.GetObject(0);
+	(*any_object2).show_params();
+	object* any_object3 = storage.GetObject(5);
+	(*any_object3).show_params();
+	object* any_object4 = storage.GetObject(8);
+	(*any_object4).show_params();
+	cout << "____________________________________________________________________" << endl;
+	//добавление объекта в заполненое храилище
+	storage.AddObject(object10);
+	int newSize = storage.CountObjects();
+	cout << "Теперь размер хранилища " << newSize << endl;
 	system("pause");
 	return 0;
-
 }
