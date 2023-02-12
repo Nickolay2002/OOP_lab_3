@@ -13,9 +13,13 @@ public:
 	{
 		cout << "Деструктор абстрактного класса object" << endl;
 	}
-	virtual void show_params()
+	virtual void name()
 	{
 		cout << "Абстрактный объект\n" << endl;
+	}
+	virtual void showParams()
+	{
+		cout << "Нет параметров\n" << endl;
 	}
 };
 
@@ -30,9 +34,13 @@ public:
 	{
 		cout << "Деструктор класса shape" << endl;
 	}
-	virtual void show_params()
+	virtual void name()
 	{
 		cout << "Фигура\n" << endl;
+	}
+	virtual void showParams()
+	{
+		cout << "Нет параметров\n" << endl;
 	}
 };
 
@@ -57,10 +65,13 @@ public:
 	{
 		cout << "Точка удалилась" << endl;
 	}
-	virtual void show_params()
+	void name()
 	{
 		cout << " Это точка\n" << endl;
-		cout << " Координаты = " << x << " , " << y << "\n" << endl;
+	}
+	void showParams()
+	{
+		cout << " Координаты точки = " << x << " , " << y << "\n" << endl;
 	}
 };
 
@@ -77,16 +88,26 @@ public:
 		length = 5;
 		cout << "Отрезок создался" << endl;
 	}
+	section(float length)
+	{
+		p1 = new point(0, 0);
+		p2 = new point(5, 5);
+		this->length = length; 
+		cout << "Отрезок создался с помощью констркутора с параметрами" << endl;
+	}
 	~section()
 	{
 		cout << "Отрезок удалился" << endl;
 		delete p1;
 		delete p2;
 	}
-	virtual void show_params()
+	void name()
 	{
 		cout << " Это отрезок\n" << endl;
-		cout << "Начало отрезка с координатами:" << p1 << "Длина:" << length << endl;
+	}
+	void showParams()
+	{
+		cout << " Начало отрезка с координатами: 0,0" << " Длина:" << length << "\n" << endl;
 	}
 };
 
@@ -101,49 +122,77 @@ public:
 	{
 		cout << "Деструктор класса aircraft" << endl;
 	}
-	virtual void show_params()
+	virtual void name()
 	{
 		cout << "Это воздушное судно\n" << endl;
+	}
+	virtual void showParams()
+	{
+		cout << "Нет параметров\n" << endl;
 	}
 };
 
 class plane :public aircraft
 {
 private:
-	int size_of_wing;
+	int sizeOfWings;
 public:
 	plane()
 	{
-		size_of_wing = 50;
+		sizeOfWings = 150;
 		cout << "Конструктор класса plane" << endl;
+	}
+	plane(int sizeOfWings)
+	{
+		this->sizeOfWings = sizeOfWings;
 	}
 	~plane()
 	{
 		cout << "Деструктор класса plane" << endl;
 	}
-	virtual void show_params()
+	virtual void name()
 	{
 		cout << " Это самолет\n" << endl;
+	}
+	virtual void showParams()
+	{
+		cout << " Длина крыла:" << sizeOfWings << "\n" << endl;
+	}
+	void fly()
+	{
+		cout << " Самолет летит\n" << endl;
 	}
 };
 
 class helicopter : public aircraft
 {
 private:
-	int size_of_blades;
+	int sizeOfBlades;
 public:
 	helicopter()
 	{
-		size_of_blades = 100;
+		sizeOfBlades = 100;
 		cout << "Конструктор класса helicopter" << endl;
+	}
+	helicopter(int sizeOfBlades)
+	{
+		this->sizeOfBlades = sizeOfBlades;
 	}
 	~helicopter()
 	{
 		cout << "Деструктор класса helicopter" << endl;
 	}
-	virtual void show_params()
+	virtual void name()
 	{
 		cout << " Это вертолет\n" << endl;
+	}
+	virtual void showParams()
+	{
+		cout << " Длина лопастей:" << sizeOfBlades << "\n" << endl;
+	}
+	void levitate()
+	{
+		cout << " Вертолет поднимается в воздух\n" << endl;
 	}
 };
 
@@ -287,14 +336,14 @@ int main()
 	object* object0 = new point(7, 10);
 	object* object1 = new section();
 	object* object2 = new plane();
-	object* object3 = new helicopter();
+	object* object3 = new helicopter(123);
 	object* object4 = new point(2, 1);
 	object* object5 = new helicopter();
-	object* object6 = new plane();
-	object* object7 = new section();
+	object* object6 = new plane(200);
+	object* object7 = new section(50);
 	object* object8 = new point();
 	object* object9 = new plane();
-	object* object10 = new plane();
+	object* object10 = new plane(300);
 	cout << "____________________________________________________________________" << endl;
 	//добавление объектов
 	storage.SetObject(0, object0);
@@ -309,21 +358,22 @@ int main()
 	storage.SetObject(9, object9);
 	cout << endl;
 	//опрос объектов
-	object* any_object0 = storage.GetObject(4);
-	(*any_object0).show_params();
+	object* any_object0 = storage.GetObject(1);
+	(*any_object0).showParams();
 	object* any_object1 = storage.GetObject(2);
-	(*any_object1).show_params();
+	(*any_object1).showParams();
 	object* any_object2 = storage.GetObject(0);
-	(*any_object2).show_params();
-	object* any_object3 = storage.GetObject(5);
-	(*any_object3).show_params();
+	(*any_object2).name();
+	object* any_object3 = storage.GetObject(6);
+	(*any_object3).showParams();
 	object* any_object4 = storage.GetObject(8);
-	(*any_object4).show_params();
+	(*any_object4).name();
 	cout << "____________________________________________________________________" << endl;
 	//добавление объекта в заполненое храилище
 	storage.AddObject(object10);
 	int newSize = storage.CountObjects();
 	cout << "Теперь размер хранилища " << newSize << endl;
 	system("pause");
+	cout << "____________________________________________________________________" << endl;
 	return 0;
 }
