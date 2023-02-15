@@ -1,25 +1,32 @@
 ﻿#include<iostream>
+#include<time.h>
+#include<stddef.h>
 
 using namespace std;
+bool debug = false;
 
 class object
 {
 public:
 	object()
 	{
-		cout << "Конструктор абстрактного класса object" << endl;
+		if(debug)
+			cout << "Конструктор абстрактного класса object" << endl;
 	}
 	~object()
 	{
-		cout << "Деструктор абстрактного класса object" << endl;
+		if (debug)
+			cout << "Деструктор абстрактного класса object" << endl;
 	}
 	virtual void name()
 	{
-		cout << "Абстрактный объект\n" << endl;
+		if (debug)
+			cout << "Абстрактный объект\n" << endl;
 	}
 	virtual void showParams()
 	{
-		cout << "Нет параметров\n" << endl;
+		if (debug)
+			cout << "Нет параметров\n" << endl;
 	}
 };
 
@@ -28,19 +35,23 @@ class shape :public object
 public:
 	shape()
 	{
-		cout << "Конструктор класса shape" << endl;
+		if (debug)
+			cout << "Конструктор класса shape" << endl;
 	}
 	~shape()
 	{
-		cout << "Деструктор класса shape" << endl;
+		if (debug)
+			cout << "Деструктор класса shape" << endl;
 	}
 	virtual void name()
 	{
-		cout << "Фигура\n" << endl;
+		if (debug)
+			cout << "Фигура\n" << endl;
 	}
 	virtual void showParams()
 	{
-		cout << "Нет параметров\n" << endl;
+		if (debug)
+			cout << "Нет параметров\n" << endl;
 	}
 };
 
@@ -51,27 +62,32 @@ private:
 public:
 	point()
 	{
-		cout << "Создалась точка" << endl;
+		if (debug)
+			cout << "Создалась точка" << endl;
 		x = 0;
 		y = 0;
 	}
 	point(int x, int y)
 	{
-		cout << "Создалась точка через конструктор с параметрами" << endl;
+		if (debug)
+			cout << "Создалась точка через конструктор с параметрами" << endl;
 		this->x = x;
 		this->y = y;
 	}
 	~point()
 	{
-		cout << "Точка удалилась" << endl;
+		if (debug)
+			cout << "Точка удалилась" << endl;
 	}
 	void name()
 	{
-		cout << " Это точка\n" << endl;
+		if (debug)
+			cout << " Это точка\n" << endl;
 	}
 	void showParams()
 	{
-		cout << " Координаты точки = " << x << " , " << y << "\n" << endl;
+		if (debug)
+			cout << " Координаты точки = " << x << " , " << y << "\n" << endl;
 	}
 };
 
@@ -86,28 +102,33 @@ public:
 		p1 = new point(0, 0);
 		p2 = new point(5, 5);
 		length = 5;
-		cout << "Отрезок создался" << endl;
+		if (debug)
+			cout << "Отрезок создался" << endl;
 	}
 	section(float length)
 	{
 		p1 = new point(0, 0);
 		p2 = new point(5, 5);
-		this->length = length; 
-		cout << "Отрезок создался с помощью констркутора с параметрами" << endl;
+		this->length = length;
+		if (debug)
+			cout << "Отрезок создался с помощью констркутора с параметрами" << endl;
 	}
 	~section()
 	{
-		cout << "Отрезок удалился" << endl;
+		if (debug)
+			cout << "Отрезок удалился" << endl;
 		delete p1;
 		delete p2;
 	}
 	void name()
 	{
-		cout << " Это отрезок\n" << endl;
+		if (debug)
+			cout << " Это отрезок\n" << endl;
 	}
 	void showParams()
 	{
-		cout << " Начало отрезка с координатами: 0,0" << " Длина:" << length << "\n" << endl;
+		if (debug)
+			cout << " Начало отрезка с координатами: 0,0" << " Длина:" << length << "\n" << endl;
 	}
 };
 
@@ -116,19 +137,23 @@ class aircraft :public object
 public:
 	aircraft()
 	{
-		cout << "Конструктор класса aircraft" << endl;
+		if (debug)
+			cout << "Конструктор класса aircraft" << endl;
 	}
 	~aircraft()
 	{
-		cout << "Деструктор класса aircraft" << endl;
+		if (debug)
+			cout << "Деструктор класса aircraft" << endl;
 	}
 	virtual void name()
 	{
-		cout << "Это воздушное судно\n" << endl;
+		if (debug)
+			cout << "Это воздушное судно\n" << endl;
 	}
 	virtual void showParams()
 	{
-		cout << "Нет параметров\n" << endl;
+		if (debug)
+			cout << "Нет параметров\n" << endl;
 	}
 };
 
@@ -140,7 +165,8 @@ public:
 	plane()
 	{
 		sizeOfWings = 150;
-		cout << "Конструктор класса plane" << endl;
+		if (debug)
+			cout << "Конструктор класса plane" << endl;
 	}
 	plane(int sizeOfWings)
 	{
@@ -148,19 +174,23 @@ public:
 	}
 	~plane()
 	{
-		cout << "Деструктор класса plane" << endl;
+		if (debug)
+			cout << "Деструктор класса plane" << endl;
 	}
 	virtual void name()
 	{
-		cout << " Это самолет\n" << endl;
+		if (debug)
+			cout << " Это самолет\n" << endl;
 	}
 	virtual void showParams()
 	{
-		cout << " Длина крыла:" << sizeOfWings << "\n" << endl;
+		if (debug)
+			cout << " Длина крыла:" << sizeOfWings << "\n" << endl;
 	}
 	void fly()
 	{
-		cout << " Самолет летит\n" << endl;
+		if (debug)
+			cout << " Самолет летит\n" << endl;
 	}
 };
 
@@ -172,7 +202,8 @@ public:
 	helicopter()
 	{
 		sizeOfBlades = 100;
-		cout << "Конструктор класса helicopter" << endl;
+		if (debug)
+			cout << "Конструктор класса helicopter" << endl;
 	}
 	helicopter(int sizeOfBlades)
 	{
@@ -180,31 +211,37 @@ public:
 	}
 	~helicopter()
 	{
-		cout << "Деструктор класса helicopter" << endl;
+		if (debug)
+			cout << "Деструктор класса helicopter" << endl;
 	}
 	virtual void name()
 	{
-		cout << " Это вертолет\n" << endl;
+		if (debug)
+			cout << " Это вертолет\n" << endl;
 	}
 	virtual void showParams()
 	{
-		cout << " Длина лопастей:" << sizeOfBlades << "\n" << endl;
+		if (debug)
+			cout << " Длина лопастей:" << sizeOfBlades << "\n" << endl;
 	}
 	void levitate()
 	{
-		cout << " Вертолет поднимается в воздух\n" << endl;
+		if (debug)
+			cout << " Вертолет поднимается в воздух\n" << endl;
 	}
 };
 
 class MyStorage
 {
 private:
+	bool debug = false;
 	object** objects;
 	int size;
 public:
 	MyStorage(int size)
 	{
-		cout << "Конструктор хранилища\n" << endl;
+		if (debug)
+			cout << "Конструктор хранилища\n" << endl;
 		this->size = size;
 		objects = new object * [size];
 		for (int i = 0; i < size; i++)
@@ -213,11 +250,8 @@ public:
 
 	~MyStorage()
 	{
-		for (int i = 0; i < size; i++)
-			if (objects[i] != nullptr)
-				delete (objects[i]);
 		delete[] objects;
-		cout << "Хранилище удалено" << endl;
+		cout << "\nХранилище удалено" << endl;
 	}
 
 	void IncreaseMyStorage(object** PrevObjects, int size, int newSize)
@@ -264,13 +298,15 @@ public:
 			{
 				position = true;
 				objects[i] = object;
-				cout << "Объект добавлен в позицию с номером " << i << endl;
+				if (debug)
+					cout << "Объект добавлен в позицию с номером " << i << endl;
 			}
 		}
 		if (position == false)
 		{
 			SetObject(size, object);
-			cout << "Объект добавлен в позицию с номером " << size << endl;
+			if (debug)
+				cout << "Объект добавлен в позицию с номером " << size << endl;
 		}
 
 	}
@@ -332,6 +368,7 @@ int main()
 	setlocale(LC_ALL, "Rus");
 	//создание хранилища на 10 объектов
 	MyStorage storage(10);
+	debug = true;
 	//создание объектов
 	object* object0 = new point(7, 10);
 	object* object1 = new section();
@@ -373,7 +410,96 @@ int main()
 	storage.AddObject(object10);
 	int newSize = storage.CountObjects();
 	cout << "Теперь размер хранилища " << newSize << endl;
-	system("pause");
 	cout << "____________________________________________________________________" << endl;
+	debug = false;
+	//циклы из 100,1000 и 10000 случайных действий
+	clock_t start , end;
+	//100
+	start = clock() * 1000 / CLOCKS_PER_SEC;
+	for (int i = 0; i < 100; i++)
+	{
+		int random = rand() % 100 + 1;
+		if (random % 2 == 0)
+		{
+			object* newObjectPoint = new point;
+			storage.SetObject(i, newObjectPoint);
+			//cout << "Добавлена точка\n" << endl;
+		}
+		if (random % 3 == 0)
+		{
+			storage.DeleteObject(i);
+			//cout << "Объект удален\n" << endl;
+		}
+		if (random % 5 == 0)
+		{
+			object* newObject = storage.GetObject(i);
+			//if (newObject == nullptr)
+				//cout << "Нет объекта";
+			//else
+				//newObject->showParams();
+		}
+	}
+	end = clock() * 1000 / CLOCKS_PER_SEC;
+	cout << "100 итераций за " ;
+	cout << difftime(end, start);
+	cout << "мс" << endl;
+	//1000
+	start = clock() * 1000 / CLOCKS_PER_SEC;
+	for (int i = 0; i < 1000; i++)
+	{
+		int random = rand() % 1000 + 1;
+		if (random % 2 == 0)
+		{
+			object* newObjectPoint = new point;
+			storage.SetObject(i, newObjectPoint);
+			//cout << "Добавлена точка\n" << endl;
+		}
+		if (random % 3 == 0)
+		{
+			storage.DeleteObject(i);
+			//cout << "Объект удален\n" << endl;
+		}
+		if (random % 5 == 0)
+		{
+			object* newObject = storage.GetObject(i);
+			//if (newObject == nullptr)
+				//cout << "Нет объекта";
+			//else
+				//newObject->showParams();
+		}
+	}
+	end = clock() * 1000 / CLOCKS_PER_SEC;
+	cout << "1000 итераций за ";
+	cout << difftime(end, start);
+	cout << "мс" << endl;
+	//10000
+	start = clock() * 1000 / CLOCKS_PER_SEC;
+	for (int i = 0; i < 10000; i++)
+	{
+		int random = rand() % 10000 + 1;
+		if (random % 2 == 0)
+		{
+			object* newObjectPoint = new point;
+			storage.SetObject(i, newObjectPoint);
+			//cout << "Добавлена точка\n" << endl;
+		}
+		if (random % 3 == 0)
+		{
+			storage.DeleteObject(i);
+			//cout << "Объект удален\n" << endl;
+		}
+		if (random % 5 == 0)
+		{
+			object* newObject = storage.GetObject(i);
+			//if (newObject == nullptr)
+				//cout << "Нет объекта";
+			//else
+				//newObject->showParams();
+		}
+	}
+	end = clock() * 1000 / CLOCKS_PER_SEC;
+	cout << "10000 итераций за ";
+	cout << difftime(end, start);
+	cout << "мс" << endl;
 	return 0;
 }
